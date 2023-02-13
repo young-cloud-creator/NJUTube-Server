@@ -35,7 +35,7 @@ func UserInfo(ctx *gin.Context) {
 	}
 
 	tokenString := ctx.Query("token")
-	if valid, _ := security.ValidateToken(tokenString); !valid {
+	if valid, uid := security.ValidateToken(tokenString); !valid || userId != uid {
 		ctx.JSON(http.StatusOK, userResponse{
 			Response: structs.Response{
 				StatusCode: 2,
