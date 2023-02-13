@@ -8,7 +8,13 @@ import (
 	"goto2023/structs"
 	"net/http"
 	"path/filepath"
+	"strconv"
 )
+
+type publishListResponse struct {
+	Response  structs.Response
+	VideoList []structs.Video `json:"video_list"`
+}
 
 // PublishAction /publish/action/ api handler
 func PublishAction(ctx *gin.Context) {
@@ -58,5 +64,43 @@ func PublishAction(ctx *gin.Context) {
 
 // PublishList /publish/list/ api handler
 func PublishList(ctx *gin.Context) {
+	userId, err := strconv.ParseInt(ctx.Query("user_id"), 10, 64)
+	if err != nil {
+		ctx.JSON(http.StatusOK, publishListResponse{
+			Response: structs.Response{
+				StatusCode: 1,
+				StatusMsg:  "Invalid User Id",
+			},
+		})
+		return
+	}
 
+	tokenString := ctx.Query("token")
+	if valid, uid := security.ValidateToken(tokenString); !valid || userId != uid {
+		ctx.JSON(http.StatusOK, publishListResponse{
+			Response: structs.Response{
+				StatusCode: 2,
+				StatusMsg:  "Invalid Token",
+			},
+		})
+		return
+	}
+
+	videos, err := service.PublishList(userId)
+	if err != nil {
+		ctx.JSON(http.StatusOK, publishListResponse{
+			Response: structs.Response{
+				StatusCode: 3,
+				StatusMsg:  "Unknown Error",
+			},
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, publishListResponse{
+		Response: structs.Response{
+			StatusCode: 0,
+		},
+		VideoList: videos,
+	})
 }

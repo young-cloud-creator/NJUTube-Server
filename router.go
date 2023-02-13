@@ -8,7 +8,7 @@ import (
 
 func initRouter(router *gin.Engine) {
 	// resources like videos, covers, ...
-	router.StaticFS("/resources", http.Dir("./public"))
+	router.StaticFS("/public", http.Dir("./public"))
 
 	// apis like feed, login, ...
 	apiRouter := router.Group("/douyin")

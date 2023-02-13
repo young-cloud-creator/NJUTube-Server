@@ -28,3 +28,12 @@ func AddVideo(userId int64, title string, playUrl string, coverUrl string) (*DBV
 	}
 	return &video, nil
 }
+
+func QueryVideosByUser(userId int64) ([]DBVideo, error) {
+	var videoList = make([]DBVideo, 0, 10)
+	err := database.Model(&DBVideo{}).Where("author = ?", userId).Find(&videoList).Error
+	if err != nil {
+		return nil, err
+	}
+	return videoList, nil
+}
