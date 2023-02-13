@@ -15,26 +15,27 @@
 ```
 Goto2023
 │
-├── structs        // 项目常用的结构体
-│   └── common.go     //  一些基本的结构体 如User、Video、Comment等
+├── structs        // 项目常用的结构体 ✅
+│   └── common.go     //  一些基本的结构体 如User、Video、Comment等 ✅
 │
 ├── controller     // 直接与API使用者交互 负责组织和发送Response、验证token等
 │   ├── comment.go    // 评论相关API
 │   ├── favorite.go   // 点赞相关API
 │   ├── feed.go       // Feed流相关API
-│   ├── publish.go    // 发布相关API 包括发布视频、已发布视频列表等API
+│   ├── publish.go    // 发布相关API 包括发布视频、已发布视频列表等API ✅
 │   └── user.go       // 用户相关API 如注册、登陆、用户信息等 ✅
 │
 ├── service        // 被controller使用 负责具体业务逻辑实现
 │   ├── comment.go
 │   ├── favorite.go
 │   ├── feed.go
-│   ├── publish.go
+│   ├── publish.go    // publish API相关的具体业务逻辑 包括投稿视频封面截取、投稿视频列表数据处理等 ✅
 │   └── user.go       // user API相关的具体业务逻辑 包括密码加密、用户名密码验证等 ✅
 │
 ├── repository     // 被service使用 负责底层数据库操作
 │   ├── common.go     // gorm model 用于表示数据库中的各张表 ✅
 │   ├── db_setup.go   // 负责连接到数据库 ✅
+│   ├── video.go      // 视频信息存储与查询 ✅
 │   └── user.go       // user表相关数据库操作 ✅
 │
 ├── security       // 安全相关的函数 例如token生成和验证
