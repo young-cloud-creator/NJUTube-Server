@@ -35,7 +35,7 @@ func UserInfo(ctx *gin.Context) {
 	}
 
 	tokenString := ctx.Query("token")
-	if !security.IsValidToken(tokenString, userId) {
+	if valid, _ := security.ValidateToken(tokenString); !valid {
 		ctx.JSON(http.StatusOK, userResponse{
 			Response: structs.Response{
 				StatusCode: 2,
@@ -79,7 +79,7 @@ func UserRegister(ctx *gin.Context) {
 	username := ctx.Query("username")
 	password := ctx.Query("password")
 
-	isSuccess, userId, msg := service.Register(username, password)
+	isSuccess, userId, msg := service.UserRegister(username, password)
 	if !isSuccess {
 		ctx.JSON(http.StatusOK, userLRResponse{
 			Response: structs.Response{
@@ -115,7 +115,7 @@ func UserLogin(ctx *gin.Context) {
 	username := ctx.Query("username")
 	password := ctx.Query("password")
 
-	isSuccess, userId, msg := service.Login(username, password)
+	isSuccess, userId, msg := service.UserLogin(username, password)
 	if !isSuccess {
 		ctx.JSON(http.StatusOK, userLRResponse{
 			Response: structs.Response{

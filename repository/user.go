@@ -4,7 +4,7 @@ import "gorm.io/gorm"
 
 func QueryUserById(id int64) (*DBUser, error) {
 	var user DBUser
-	err := database.Model(&user).Where("id = ?", id).Find(&user).Error
+	err := database.Model(&user).Where("id = ?", id).First(&user).Error
 	if err == gorm.ErrRecordNotFound {
 		return nil, nil
 	}

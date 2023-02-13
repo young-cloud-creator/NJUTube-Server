@@ -23,8 +23,8 @@ func encrypt(rawString string) string {
 	return hex.EncodeToString(secret[:])
 }
 
-// Login returns (isSuccessful, msg)
-func Login(name string, passwd string) (bool, int64, string) {
+// UserLogin returns (isSuccessful, msg)
+func UserLogin(name string, passwd string) (bool, int64, string) {
 	secret := encrypt(passwd)
 	user, err := repository.QueryUserByName(name)
 	if err != nil {
@@ -39,8 +39,8 @@ func Login(name string, passwd string) (bool, int64, string) {
 	return true, user.Id, ""
 }
 
-// Register returns (isSuccessful, userId, msg)
-func Register(name string, passwd string) (bool, int64, string) {
+// UserRegister returns (isSuccessful, userId, msg)
+func UserRegister(name string, passwd string) (bool, int64, string) {
 	user, err := repository.QueryUserByName(name)
 	if err != nil {
 		return false, -1, "Unknown Error"
