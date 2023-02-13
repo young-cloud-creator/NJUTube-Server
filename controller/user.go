@@ -11,8 +11,8 @@ import (
 )
 
 type userResponse struct {
-	structs.Response
-	structs.User `json:"user"`
+	Response structs.Response
+	User     structs.User `json:"user"`
 }
 
 type userLRResponse struct {
@@ -28,7 +28,7 @@ func UserInfo(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, userResponse{
 			Response: structs.Response{
 				StatusCode: 1,
-				StatusMsg:  "Request without User Id",
+				StatusMsg:  "Invalid User Id",
 			},
 		})
 		return
