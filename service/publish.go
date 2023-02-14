@@ -15,7 +15,7 @@ const PublicDir = "public/"
 const VideoDir = PublicDir + "videos/"
 const CoverDir = PublicDir + "covers/"
 
-const serverAddr = "http://192.168.3.99:8080/"
+const serverAddr = "http://172.27.154.173:8080/"
 
 // PublishAction capture the video cover and store video info to database
 func PublishAction(title string, videoName string, userId int64) error {
@@ -72,21 +72,22 @@ func captureFrame(filePath string, percent float64) (i image.Image, err error) {
 }
 
 func PublishList(userId int64) ([]structs.Video, error) {
-	videos := make([]structs.Video, 0, 10)
 	rawVideos, err := repository.QueryVideosByUser(userId)
 	if err != nil {
-		return videos, err
+		return nil, err
 	}
 	user, err := QueryUserInfo(userId)
 	if err != nil {
-		return videos, err
+		return nil, err
 	}
 	if user == nil {
-		return videos, errors.New("user not find")
+		return nil, errors.New("user not find")
 	}
+	videos := make([]structs.Video, 0, len(rawVideos))
 
 	for _, v := range rawVideos {
 		videos = append(videos, structs.Video{
+			Id:       v.Id,
 			Author:   *user,
 			PlayUrl:  serverAddr + v.PlayUrl,
 			CoverUrl: serverAddr + v.CoverUrl,

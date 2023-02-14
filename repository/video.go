@@ -14,6 +14,15 @@ func QueryVideoById(id int64) (*DBVideo, error) {
 	return &video, nil
 }
 
+func QueryVideosByTime(latestTime time.Time, videoNum int) ([]*DBVideo, error) {
+	var videoList = make([]*DBVideo, 0, videoNum)
+	err := database.Model(&DBVideo{}).Where("create_time < ?", latestTime).Order("create_time DESC").Limit(videoNum).Find(&videoList).Error
+	if err != nil {
+		return videoList, err
+	}
+	return videoList, nil
+}
+
 func AddVideo(userId int64, title string, playUrl string, coverUrl string) (*DBVideo, error) {
 	video := DBVideo{
 		AuthorId:   userId,
@@ -29,8 +38,8 @@ func AddVideo(userId int64, title string, playUrl string, coverUrl string) (*DBV
 	return &video, nil
 }
 
-func QueryVideosByUser(userId int64) ([]DBVideo, error) {
-	var videoList = make([]DBVideo, 0, 10)
+func QueryVideosByUser(userId int64) ([]*DBVideo, error) {
+	var videoList = make([]*DBVideo, 0, 10)
 	err := database.Model(&DBVideo{}).Where("author = ?", userId).Find(&videoList).Error
 	if err != nil {
 		return nil, err
