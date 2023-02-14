@@ -2,13 +2,14 @@ package controller
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"goto2023/security"
 	"goto2023/service"
 	"goto2023/structs"
 	"net/http"
 	"path/filepath"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
 type publishListResponse struct {
@@ -74,7 +75,7 @@ func PublishList(ctx *gin.Context) {
 		})
 		return
 	}
-
+	/*
 	tokenString := ctx.Query("token")
 	if valid, uid := security.ValidateToken(tokenString); !valid || userId != uid {
 		ctx.JSON(http.StatusOK, publishListResponse{
@@ -85,7 +86,7 @@ func PublishList(ctx *gin.Context) {
 		})
 		return
 	}
-
+	*/
 	videos, err := service.PublishList(userId)
 	if err != nil {
 		ctx.JSON(http.StatusOK, publishListResponse{
