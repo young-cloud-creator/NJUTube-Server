@@ -2,6 +2,15 @@
 
 字节跳动第五届青训营大项目
 
+## 注意事项
+
+- `service/publish.go`文件定义了服务器地址，运行时请自行修改`serverAddr`变量为服务器地址
+  - 该变量将影响返回给客户端的视频和封面地址
+- `repository/db_setup.go`文件的InitDB函数中的`dsn`定义了MySQL数据库地址，运行时请自行修改
+  - 数据库中需要存在名为`douyin`的database，其中的表结构详见`数据表结构`部分
+- `service/publish.go`文件定义了视频和封面文件存放的子目录，如有需要，可自行修改`PublicDir`、`VideoDir`和`CoverDir`变量
+- 数据库表结构已导出到项目目录下的`douyin.sql`文件，如有需要请自行导入
+
 ## 项目选题
 
 极简抖音服务端，初步目标是实现互动方向（即视频Feed流、视频投稿、用户登陆注册、用户信息查询、点赞和评论功能）的API
