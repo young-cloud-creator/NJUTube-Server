@@ -21,14 +21,14 @@ Goto2023
 ├── controller     // 直接与API使用者交互 负责组织和发送Response、验证token等
 │   ├── comment.go    // 评论相关API
 │   ├── favorite.go   // 点赞相关API
-│   ├── feed.go       // Feed流相关API
+│   ├── feed.go       // Feed流相关API ✅
 │   ├── publish.go    // 发布相关API 包括发布视频、已发布视频列表等API ✅
 │   └── user.go       // 用户相关API 如注册、登陆、用户信息等 ✅
 │
 ├── service        // 被controller使用 负责具体业务逻辑实现
 │   ├── comment.go
 │   ├── favorite.go
-│   ├── feed.go
+│   ├── feed.go       // feed API相关的具体业务逻辑 包括时间戳转换、视频列表数据处理等 ✅
 │   ├── publish.go    // publish API相关的具体业务逻辑 包括投稿视频封面截取、投稿视频列表数据处理等 ✅
 │   └── user.go       // user API相关的具体业务逻辑 包括密码加密、用户名密码验证等 ✅
 │
@@ -38,7 +38,7 @@ Goto2023
 │   ├── video.go      // 视频信息存储与查询 ✅
 │   └── user.go       // user表相关数据库操作 ✅
 │
-├── security       // 安全相关的函数 例如token生成和验证
+├── security       // 安全相关的函数 例如token生成和验证 ✅
 │   └── jwt.go        // JSON Web Token（JWT）生成和验证 ✅
 │
 ├── main.go        // 入口 负责调用相关方法初始化数据库、初始化路由和运行服务器 ✅
