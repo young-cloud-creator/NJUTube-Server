@@ -4,6 +4,7 @@
 
 ## 注意事项
 
+- 项目依赖于OpenCV 4.7.0，请自行安装，安装方法参考https://gocv.io/getting-started/
 - `service/publish.go`文件定义了服务器地址，运行时请自行修改`serverAddr`变量为服务器地址
   - 该变量将影响返回给客户端的视频和封面地址
 - `repository/db_setup.go`文件的InitDB函数中的`dsn`定义了MySQL数据库地址，运行时请自行修改
