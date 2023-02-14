@@ -3,19 +3,22 @@ package service
 import (
 	"bytes"
 	"errors"
-	"gocv.io/x/gocv"
+	"fmt"
 	"goto2023/repository"
 	"goto2023/structs"
 	"image"
 	"image/png"
 	"os"
+
+	"github.com/disintegration/imaging"
+	ffmpeg "github.com/u2takey/ffmpeg-go"
 )
 
 const PublicDir = "public/"
 const VideoDir = PublicDir + "videos/"
 const CoverDir = PublicDir + "covers/"
 
-const serverAddr = "http://172.27.154.173:8080/"
+const serverAddr = "http://192.168.3.99:8080/"
 
 // PublishAction capture the video cover and store video info to database
 func PublishAction(title string, videoName string, userId int64) error {
@@ -23,7 +26,12 @@ func PublishAction(title string, videoName string, userId int64) error {
 	coverPath := CoverDir + videoName + ".png"
 
 	// capture the video cover and save to coverPath
-	coverImg, err := captureFrame(videoPath, 0.25)
+
+	// use gocv
+	// coverImg, err := captureFrame(videoPath, 0.25)
+	// use ffmpeg
+	coverImg, err := captureFrameFFmpeg(videoPath)
+
 	if err != nil {
 		return errors.New("cannot capture video cover")
 	}
@@ -44,6 +52,7 @@ func PublishAction(title string, videoName string, userId int64) error {
 	return nil
 }
 
+/*
 // CaptureFrame
 // @param percent float64 "percent of video, should be less than 1"
 func captureFrame(filePath string, percent float64) (i image.Image, err error) {
@@ -69,6 +78,25 @@ func captureFrame(filePath string, percent float64) (i image.Image, err error) {
 		return i, err
 	}
 	return imageObject, err
+}
+*/
+
+func captureFrameFFmpeg(filePath string) (i image.Image, err error) {
+	buf := bytes.NewBuffer(nil)
+	err = ffmpeg.Input(filePath).
+		Filter("select", ffmpeg.Args{fmt.Sprintf("gte(n,%d)", 1)}).
+		Output("pipe:", ffmpeg.KwArgs{"vframes": 1, "format": "image2", "vcodec": "png"}).
+		WithOutput(buf).
+		Run()
+	if err != nil {
+		return nil, err
+	}
+
+	img, err := imaging.Decode(buf)
+	if err != nil {
+		return nil, err
+	}
+	return img, nil
 }
 
 func PublishList(userId int64) ([]structs.Video, error) {
