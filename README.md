@@ -2,20 +2,40 @@
 
 字节跳动第五届青训营大项目
 
+## 项目简介
+
+这是一个使用Go语言，基于`Gin`框架和`GORM`框架开发的短视频平台服务端，“极简抖音”。服务端实现了下面的几个API：
+
+- `/douyin/feed/` 视频流接口
+- `/douyin/user/register/` 用户注册接口
+- `/douyin/user/login/` 用户登录接口
+- `/douyin/user/` 用户信息接口
+- `/douyin/publish/action/` 视频投稿接口
+- `/douyin/publish/list/` 发布列表接口
+- `/douyin/favorite/action/` 赞操作接口
+- `/douyin/favorite/list/` 点赞列表接口
+- `/douyin/comment/action/` 评论操作接口
+- `/douyin/comment/list/` 评论列表接口
+
+接口的具体定义详见[www.apifox.cn/apidoc/shared-09d88f32-0b6c-4157-9d07-a36d32d7a75c](https://www.apifox.cn/apidoc/shared-09d88f32-0b6c-4157-9d07-a36d32d7a75c)
+
 ## 注意事项
 
-- 项目依赖于ffmpeg，请自行安装
-  - （注：也可改用OpenCV 4.7.0，须在service/publish.go/publishAction中取消注释相应函数，安装方法参考 https://gocv.io/getting-started/ ）
+- 项目依赖于`ffmpeg`，请自行安装
+  - 注：也可改用`OpenCV 4.7.0`，须在`service/publish.go/publishAction`中取消注释相应函数，安装方法参考[gocv.io/getting-started](https://gocv.io/getting-started/)
 - `service/publish.go`文件定义了服务器地址，运行时请自行修改`serverAddr`变量为服务器地址
   - 该变量将影响返回给客户端的视频和封面地址
-- `repository/db_setup.go`文件的InitDB函数中的`dsn`定义了MySQL数据库地址，运行时请自行修改
-  - 数据库中需要存在名为`douyin`的database，其中的表结构详见`数据表结构`部分
+- `repository/db_setup.go`文件的`InitDB`函数中的`dsn`定义了MySQL数据库地址，运行时请自行修改
+  - 数据库中需要存在名为`douyin`的`database`，其中的表结构详见`数据表结构`部分
 - `service/publish.go`文件定义了视频和封面文件存放的子目录，如有需要，可自行修改`PublicDir`、`VideoDir`和`CoverDir`变量
 - 数据库表结构已导出到项目目录下的`douyin.sql`文件，如有需要请自行导入
+- 使用`go build`构建项目
+
+Have a Nice Day! 🥳
 
 ## 项目选题
 
-极简抖音服务端，初步目标是实现互动方向（即视频Feed流、视频投稿、用户登陆注册、用户信息查询、点赞和评论功能）的API
+极简抖音服务端，初步目标是实现互动方向（即视频Feed流、视频投稿、用户登陆注册、用户信息查询、点赞和评论功能）的API（目标已完成 ✅）
 
 ## 代码结构介绍
 
@@ -24,28 +44,30 @@
 ![image](https://user-images.githubusercontent.com/84324349/217787742-6d8274a4-a8af-44d9-aad8-8ab968323247.png)
 
 ```
-Goto2023
+Goto2023 ✅
 │
 ├── structs        // 项目常用的结构体 ✅
 │   └── common.go     //  一些基本的结构体 如User、Video、Comment等 ✅
 │
-├── controller     // 直接与API使用者交互 负责组织和发送Response、验证token等
-│   ├── comment.go    // 评论相关API
-│   ├── favorite.go   // 点赞相关API
+├── controller     // 直接与API使用者交互 负责组织和发送Response、验证token等 ✅
+│   ├── comment.go    // 评论相关API ✅
+│   ├── favorite.go   // 点赞相关API ✅
 │   ├── feed.go       // Feed流相关API ✅
 │   ├── publish.go    // 发布相关API 包括发布视频、已发布视频列表等API ✅
 │   └── user.go       // 用户相关API 如注册、登陆、用户信息等 ✅
 │
-├── service        // 被controller使用 负责具体业务逻辑实现
-│   ├── comment.go
-│   ├── favorite.go
+├── service        // 被controller使用 负责具体业务逻辑实现 ✅
+│   ├── comment.go    // comment API相关的具体业务逻辑 包括评论权限判定、评论格式转换等 ✅
+│   ├── favorite.go   // favorite API相关的具体业务逻辑 主要负责点赞列表的格式转换（存储格式->响应格式） ✅
 │   ├── feed.go       // feed API相关的具体业务逻辑 包括时间戳转换、视频列表数据处理等 ✅
 │   ├── publish.go    // publish API相关的具体业务逻辑 包括投稿视频封面截取、投稿视频列表数据处理等 ✅
 │   └── user.go       // user API相关的具体业务逻辑 包括密码加密、用户名密码验证等 ✅
 │
-├── repository     // 被service使用 负责底层数据库操作
+├── repository     // 被service使用 负责底层数据库操作 ✅
+│   ├── comment.go    // comment数据表相关操作 ✅
 │   ├── common.go     // gorm model 用于表示数据库中的各张表 ✅
 │   ├── db_setup.go   // 负责连接到数据库 ✅
+│   ├── favorite.go   // favorite数据表相关操作 ✅
 │   ├── video.go      // 视频信息存储与查询 ✅
 │   └── user.go       // user表相关数据库操作 ✅
 │
@@ -62,7 +84,7 @@ Goto2023
 
 ## 数据表结构介绍
 
-数据库的配置位于repository/db_setup.go，运行项目后，将会连接到root:12345678@127.0.0.1:3306的名为douyin的MySQL数据库。数据库有user、video、favorite和comment四张表，分别存储用户信息、视频信息、点赞信息和评论信息，下面是这几张表的结构。
+数据库的配置位于`repository/db_setup.go`，运行项目后，将会连接到`root:12345678@127.0.0.1:3306`的名为`douyin`的MySQL数据库。数据库有`user`、`video`、`favorite`和`comment`四张表，分别存储用户信息、视频信息、点赞信息和评论信息，下面是这几张表的结构。
 
 ```
 user
