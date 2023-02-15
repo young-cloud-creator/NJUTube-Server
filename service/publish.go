@@ -114,12 +114,18 @@ func PublishList(userId int64) ([]structs.Video, error) {
 	videos := make([]structs.Video, 0, len(rawVideos))
 
 	for _, v := range rawVideos {
+		isFavorite, _ := repository.IsFavorite(userId, v.Id)
+		favoriteCount, _ := repository.CountFavorite(v.Id)
+		commentCount, _ := repository.CountComment(v.Id)
 		videos = append(videos, structs.Video{
-			Id:       v.Id,
-			Author:   *user,
-			PlayUrl:  serverAddr + v.PlayUrl,
-			CoverUrl: serverAddr + v.CoverUrl,
-			Title:    v.Title,
+			Id:            v.Id,
+			Author:        *user,
+			PlayUrl:       serverAddr + v.PlayUrl,
+			CoverUrl:      serverAddr + v.CoverUrl,
+			FavoriteCount: favoriteCount,
+			CommentCount:  commentCount,
+			IsFavorite:    isFavorite,
+			Title:         v.Title,
 		})
 	}
 

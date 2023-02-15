@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func GenerateFeed(latestTime int64) ([]structs.Video, int64, error) {
+func GenerateFeed(latestTime int64, userId int64) ([]structs.Video, int64, error) {
 	dateTime := time.Unix(latestTime, 0).Local()
 	rawVideos, err := repository.QueryVideosByTime(dateTime, 10)
 	if err != nil {
@@ -29,12 +29,18 @@ func GenerateFeed(latestTime int64) ([]structs.Video, int64, error) {
 			continue
 		}
 
+		isFavorite, _ := repository.IsFavorite(userId, v.Id)
+		favoriteCount, _ := repository.CountFavorite(v.Id)
+		commentCount, _ := repository.CountComment(v.Id)
 		videos = append(videos, structs.Video{
-			Id: v.Id,
-			Author:   *user,
-			PlayUrl:  serverAddr + v.PlayUrl,
-			CoverUrl: serverAddr + v.CoverUrl,
-			Title:    v.Title,
+			Id:            v.Id,
+			Author:        *user,
+			PlayUrl:       serverAddr + v.PlayUrl,
+			CoverUrl:      serverAddr + v.CoverUrl,
+			FavoriteCount: favoriteCount,
+			CommentCount:  commentCount,
+			IsFavorite:    isFavorite,
+			Title:         v.Title,
 		})
 	}
 

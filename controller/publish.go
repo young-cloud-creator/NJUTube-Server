@@ -12,7 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type publishListResponse struct {
+type videoListResponse struct {
 	Response  structs.Response
 	VideoList []structs.Video `json:"video_list"`
 }
@@ -67,7 +67,7 @@ func PublishAction(ctx *gin.Context) {
 func PublishList(ctx *gin.Context) {
 	userId, err := strconv.ParseInt(ctx.Query("user_id"), 10, 64)
 	if err != nil {
-		ctx.JSON(http.StatusOK, publishListResponse{
+		ctx.JSON(http.StatusOK, videoListResponse{
 			Response: structs.Response{
 				StatusCode: 1,
 				StatusMsg:  "Invalid User Id",
@@ -76,20 +76,20 @@ func PublishList(ctx *gin.Context) {
 		return
 	}
 	/*
-	tokenString := ctx.Query("token")
-	if valid, uid := security.ValidateToken(tokenString); !valid || userId != uid {
-		ctx.JSON(http.StatusOK, publishListResponse{
-			Response: structs.Response{
-				StatusCode: 2,
-				StatusMsg:  "Invalid Token",
-			},
-		})
-		return
-	}
+		tokenString := ctx.Query("token")
+		if valid, uid := security.ValidateToken(tokenString); !valid || userId != uid {
+			ctx.JSON(http.StatusOK, videoListResponse{
+				Response: structs.Response{
+					StatusCode: 2,
+					StatusMsg:  "Invalid Token",
+				},
+			})
+			return
+		}
 	*/
 	videos, err := service.PublishList(userId)
 	if err != nil {
-		ctx.JSON(http.StatusOK, publishListResponse{
+		ctx.JSON(http.StatusOK, videoListResponse{
 			Response: structs.Response{
 				StatusCode: 3,
 				StatusMsg:  "Unknown Error",
@@ -98,7 +98,7 @@ func PublishList(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, publishListResponse{
+	ctx.JSON(http.StatusOK, videoListResponse{
 		Response: structs.Response{
 			StatusCode: 0,
 		},

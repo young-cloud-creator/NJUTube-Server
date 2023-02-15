@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
+	"goto2023/security"
 	"goto2023/service"
 	"goto2023/structs"
 	"net/http"
@@ -23,7 +24,13 @@ func FeedList(ctx *gin.Context) {
 	}
 	latestTime = latestTime / 1000 // millisecond to second
 
-	videoList, nextTime, err := service.GenerateFeed(latestTime)
+	tokenString := ctx.Query("token")
+	valid, userId := security.ValidateToken(tokenString)
+	if !valid {
+		userId = 0
+	}
+
+	videoList, nextTime, err := service.GenerateFeed(latestTime, userId)
 	if err != nil {
 		ctx.JSON(http.StatusOK, feedResponse{
 			Response: structs.Response{
