@@ -5,6 +5,8 @@ import (
 	"goto2023/repository"
 	"goto2023/service"
 	"log"
+	"net"
+	"net/http"
 	"os"
 )
 
@@ -40,9 +42,19 @@ func main() {
 	router := gin.Default()
 	initRouter(router)
 
+	addr := "0.0.0.0:8080"
+	server := http.Server{Addr: addr, Handler: router}
+	ln, _ := net.Listen("tcp4", addr)
+	type tcpKeepAliveListener struct {
+		*net.TCPListener
+	}
+	_ = server.Serve(tcpKeepAliveListener{ln.(*net.TCPListener)})
+
+	/* will run on IPv6 address if server has
 	// listen and serve on 0.0.0.0:8080
 	err = router.Run("0.0.0.0:8080")
 	if err != nil {
 		log.Fatal(err) // cannot start server
 	}
+	*/
 }
