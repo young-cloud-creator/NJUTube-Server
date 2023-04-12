@@ -11,7 +11,7 @@ func initRouter(router *gin.Engine) {
 	router.StaticFS("/public", http.Dir("./public"))
 
 	// apis like feed, login, ...
-	apiRouter := router.Group("/douyin")
+	apiRouter := router.Group("/tube")
 
 	// basic apis
 	apiRouter.GET("/feed/", controller.FeedList)
