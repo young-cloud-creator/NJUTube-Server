@@ -27,8 +27,8 @@ func AddVideo(userId int64, title string, playUrl string, coverUrl string) (*DBV
 	video := DBVideo{
 		AuthorId:   userId,
 		Title:      title,
-		PlayUrl:    playUrl,
-		CoverUrl:   coverUrl,
+		PlayUrl:    "/"+playUrl,
+		CoverUrl:   "/"+coverUrl,
 		CreateTime: time.Now(),
 	}
 	err := database.Model(&video).Create(&video).Error

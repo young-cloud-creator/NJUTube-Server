@@ -35,12 +35,13 @@ func GenerateFeed(latestTime int64, userId int64) ([]structs.Video, int64, error
 		videos = append(videos, structs.Video{
 			Id:            v.Id,
 			Author:        *user,
-			PlayUrl:       serverAddr + v.PlayUrl,
-			CoverUrl:      serverAddr + v.CoverUrl,
+			PlayUrl:       v.PlayUrl,
+			CoverUrl:      v.CoverUrl,
 			FavoriteCount: favoriteCount,
 			CommentCount:  commentCount,
 			IsFavorite:    isFavorite,
 			Title:         v.Title,
+			UploadDate:    v.CreateTime.Format("2006-1-2-15-04"),
 		})
 	}
 

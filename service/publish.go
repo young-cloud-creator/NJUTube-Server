@@ -18,8 +18,6 @@ const PublicDir = "public/"
 const VideoDir = PublicDir + "videos/"
 const CoverDir = PublicDir + "covers/"
 
-const serverAddr = "http://192.168.3.99:8080/"
-
 // PublishAction capture the video cover and store video info to database
 func PublishAction(title string, videoName string, userId int64) error {
 	videoPath := VideoDir + videoName
@@ -120,12 +118,13 @@ func PublishList(userId int64) ([]structs.Video, error) {
 		videos = append(videos, structs.Video{
 			Id:            v.Id,
 			Author:        *user,
-			PlayUrl:       serverAddr + v.PlayUrl,
-			CoverUrl:      serverAddr + v.CoverUrl,
+			PlayUrl:       v.PlayUrl,
+			CoverUrl:      v.CoverUrl,
 			FavoriteCount: favoriteCount,
 			CommentCount:  commentCount,
 			IsFavorite:    isFavorite,
 			Title:         v.Title,
+			UploadDate:    v.CreateTime.Format("2006-1-2-15-04"),
 		})
 	}
 

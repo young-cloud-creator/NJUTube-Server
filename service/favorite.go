@@ -38,12 +38,13 @@ func FavoriteList(userId int64, selfId int64) ([]structs.Video, error) {
 		videos = append(videos, structs.Video{
 			Id:            dbVideo.Id,
 			Author:        *user,
-			PlayUrl:       serverAddr + dbVideo.PlayUrl,
-			CoverUrl:      serverAddr + dbVideo.CoverUrl,
+			PlayUrl:       dbVideo.PlayUrl,
+			CoverUrl:      dbVideo.CoverUrl,
 			FavoriteCount: favoriteCount,
 			CommentCount:  commentCount,
 			IsFavorite:    isFavorite,
 			Title:         dbVideo.Title,
+			UploadDate:    dbVideo.CreateTime.Format("2006-1-2-15-04"),
 		})
 	}
 
