@@ -11,7 +11,7 @@ import (
 
 // FavoriteAction /favorite/action/ api handler
 func FavoriteAction(ctx *gin.Context) {
-	videoId, err := strconv.ParseInt(ctx.Query("video_id"), 10, 64)
+	videoId, err := strconv.ParseInt(ctx.PostForm("video_id"), 10, 64)
 	if err != nil {
 		ctx.JSON(http.StatusOK, structs.Response{
 			StatusCode: 1,
@@ -20,7 +20,7 @@ func FavoriteAction(ctx *gin.Context) {
 		return
 	}
 
-	actionType, err := strconv.ParseInt(ctx.Query("action_type"), 10, 64)
+	actionType, err := strconv.ParseInt(ctx.PostForm("action_type"), 10, 64)
 	if err != nil || (actionType != 1 && actionType != 2) {
 		ctx.JSON(http.StatusOK, structs.Response{
 			StatusCode: 2,
@@ -29,7 +29,7 @@ func FavoriteAction(ctx *gin.Context) {
 		return
 	}
 
-	tokenString := ctx.Query("token")
+	tokenString := ctx.PostForm("token")
 	valid, userId := security.ValidateToken(tokenString)
 	if !valid {
 		ctx.JSON(http.StatusOK, structs.Response{

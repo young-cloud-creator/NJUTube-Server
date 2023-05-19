@@ -21,7 +21,7 @@ type commentListResponse struct {
 
 // CommentAction /comment/action/ api handler
 func CommentAction(ctx *gin.Context) {
-	videoId, err := strconv.ParseInt(ctx.Query("video_id"), 10, 64)
+	videoId, err := strconv.ParseInt(ctx.PostForm("video_id"), 10, 64)
 	if err != nil {
 		ctx.JSON(http.StatusOK, commentActionResponse{
 			Response: structs.Response{
@@ -32,7 +32,7 @@ func CommentAction(ctx *gin.Context) {
 		return
 	}
 
-	actionType, err := strconv.ParseInt(ctx.Query("action_type"), 10, 64)
+	actionType, err := strconv.ParseInt(ctx.PostForm("action_type"), 10, 64)
 	if err != nil || (actionType != 1 && actionType != 2) {
 		ctx.JSON(http.StatusOK, commentActionResponse{
 			Response: structs.Response{
@@ -43,7 +43,7 @@ func CommentAction(ctx *gin.Context) {
 		return
 	}
 
-	tokenString := ctx.Query("token")
+	tokenString := ctx.PostForm("token")
 	valid, userId := security.ValidateToken(tokenString)
 	if !valid {
 		ctx.JSON(http.StatusOK, commentActionResponse{
@@ -57,7 +57,7 @@ func CommentAction(ctx *gin.Context) {
 
 	switch actionType {
 	case 1:
-		commentText := ctx.Query("comment_text")
+		commentText := ctx.PostForm("comment_text")
 		comment, err := service.AddComment(userId, videoId, commentText)
 		if err != nil {
 			ctx.JSON(http.StatusOK, commentActionResponse{
@@ -76,7 +76,7 @@ func CommentAction(ctx *gin.Context) {
 		})
 
 	case 2:
-		commentId, err := strconv.ParseInt(ctx.Query("comment_id"), 10, 64)
+		commentId, err := strconv.ParseInt(ctx.PostForm("comment_id"), 10, 64)
 		if err != nil {
 			ctx.JSON(http.StatusOK, commentActionResponse{
 				Response: structs.Response{

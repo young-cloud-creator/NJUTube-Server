@@ -76,8 +76,8 @@ func UserInfo(ctx *gin.Context) {
 
 // UserRegister /user/register/ api handler
 func UserRegister(ctx *gin.Context) {
-	username := ctx.Query("username")
-	password := ctx.Query("password")
+	username := ctx.PostForm("username")
+	password := ctx.PostForm("password")
 
 	isSuccess, userId, msg := service.UserRegister(username, password)
 	if !isSuccess {
@@ -112,8 +112,8 @@ func UserRegister(ctx *gin.Context) {
 
 // UserLogin /user/login/ api handler
 func UserLogin(ctx *gin.Context) {
-	username := ctx.Query("username")
-	password := ctx.Query("password")
+	username := ctx.PostForm("username")
+	password := ctx.PostForm("password")
 
 	isSuccess, userId, msg := service.UserLogin(username, password)
 	if !isSuccess {
