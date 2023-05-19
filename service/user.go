@@ -3,8 +3,8 @@ package service
 import (
 	"crypto/sha512"
 	"encoding/hex"
-	"goto2023/repository"
-	"goto2023/structs"
+	"nju-tube/repository"
+	"nju-tube/structs"
 )
 
 func QueryUserInfo(id int64) (*structs.User, error) {

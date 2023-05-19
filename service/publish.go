@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"goto2023/repository"
-	"goto2023/structs"
 	"image"
 	"image/png"
+	"nju-tube/repository"
+	"nju-tube/structs"
 	"os"
 
 	"github.com/disintegration/imaging"

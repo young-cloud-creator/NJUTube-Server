@@ -2,11 +2,11 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"goto2023/repository"
-	"goto2023/service"
 	"log"
 	"net"
 	"net/http"
+	"nju-tube/repository"
+	"nju-tube/service"
 	"os"
 )
 

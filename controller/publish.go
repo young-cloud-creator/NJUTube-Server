@@ -2,10 +2,10 @@ package controller
 
 import (
 	"fmt"
-	"goto2023/security"
-	"goto2023/service"
-	"goto2023/structs"
 	"net/http"
+	"nju-tube/security"
+	"nju-tube/service"
+	"nju-tube/structs"
 	"path/filepath"
 	"strconv"
 

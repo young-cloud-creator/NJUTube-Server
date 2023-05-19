@@ -1,8 +1,8 @@
 package service
 
 import (
-	"goto2023/repository"
-	"goto2023/structs"
+	"nju-tube/repository"
+	"nju-tube/structs"
 	"time"
 )
 

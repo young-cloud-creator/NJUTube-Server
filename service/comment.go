@@ -1,8 +1,8 @@
 package service
 
 import (
-	"goto2023/repository"
-	"goto2023/structs"
+	"nju-tube/repository"
+	"nju-tube/structs"
 )
 
 func AddComment(userId int64, videoId int64, content string) (*structs.Comment, error) {

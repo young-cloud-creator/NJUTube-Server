@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"goto2023/controller"
 	"net/http"
+	"nju-tube/controller"
 )
 
 func initRouter(router *gin.Engine) {
