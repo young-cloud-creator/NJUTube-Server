@@ -8,7 +8,7 @@ import (
 
 func GenerateFeed(latestTime int64, userId int64) ([]structs.Video, int64, error) {
 	dateTime := time.Unix(latestTime, 0).Local()
-	rawVideos, err := repository.QueryVideosByTime(dateTime, 10)
+	rawVideos, err := repository.QueryVideosByTime(dateTime, 64)
 	if err != nil {
 		return nil, -1, nil
 	}
