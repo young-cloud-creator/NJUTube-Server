@@ -10,12 +10,12 @@ import (
 )
 
 type commentActionResponse struct {
-	Response structs.Response
+	Response structs.Response `json:"response"`
 	Comment  structs.Comment `json:"comment,omitempty"`
 }
 
 type commentListResponse struct {
-	Response    structs.Response
+	Response    structs.Response `json:"response"`
 	CommentList []structs.Comment `json:"comment_list,omitempty"`
 }
 

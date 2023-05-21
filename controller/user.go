@@ -11,13 +11,13 @@ import (
 )
 
 type userResponse struct {
-	Response structs.Response
+	Response structs.Response `json:"response"`
 	User     structs.User `json:"user"`
 }
 
 type userLRResponse struct {
-	structs.Response
-	UserId int64  `json:"user_id,omitempty"`
+	structs.Response `json:"response"`
+	UserId int64  `json:"user_id"`
 	Token  string `json:"token"`
 }
 

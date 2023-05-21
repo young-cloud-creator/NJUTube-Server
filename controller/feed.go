@@ -11,7 +11,7 @@ import (
 )
 
 type feedResponse struct {
-	Response  structs.Response
+	Response  structs.Response `json:"response"`
 	NextTime  int64           `json:"next_time"`
 	VideoList []structs.Video `json:"video_list,omitempty"`
 }

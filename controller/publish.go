@@ -13,7 +13,7 @@ import (
 )
 
 type videoListResponse struct {
-	Response  structs.Response
+	Response  structs.Response `json:"response"`
 	VideoList []structs.Video `json:"video_list"`
 }
 

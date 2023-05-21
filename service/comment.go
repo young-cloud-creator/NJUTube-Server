@@ -18,7 +18,7 @@ func AddComment(userId int64, videoId int64, content string) (*structs.Comment, 
 		Id:         rawComment.Id,
 		User:       *user,
 		Content:    rawComment.Content,
-		CreateDate: rawComment.CreateTime.Format("01-02"),
+		CreateDate: rawComment.CreateTime.Format("2006-1-2-15-04"),
 	}
 	return &comment, nil
 }
@@ -56,7 +56,7 @@ func CommentList(videoId int64) []structs.Comment {
 			Id:         comment.Id,
 			User:       *user,
 			Content:    comment.Content,
-			CreateDate: comment.CreateTime.Format("01-02"),
+			CreateDate: comment.CreateTime.Format("2006-1-2-15-04"),
 		})
 	}
 	return comments
