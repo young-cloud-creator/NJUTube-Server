@@ -21,7 +21,7 @@ func FavoriteAction(ctx *gin.Context) {
 	}
 
 	actionType, err := strconv.ParseInt(ctx.PostForm("action_type"), 10, 64)
-	if err != nil || (actionType != 1 && actionType != 2) {
+	if err != nil || (actionType != 1 && actionType != 2 && actionType != 3) {
 		ctx.JSON(http.StatusOK, structs.Response{
 			StatusCode: 2,
 			StatusMsg:  "Invalid Action Type",
@@ -35,6 +35,25 @@ func FavoriteAction(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, structs.Response{
 			StatusCode: 3,
 			StatusMsg:  "Invalid Token",
+		})
+		return
+	}
+
+	if actionType == 3 {
+		isFavorite, err := service.UserFavoriteVideo(userId, videoId)
+		if err != nil {
+			ctx.JSON(http.StatusOK, structs.Response{
+				StatusCode: 5,
+				StatusMsg:  "Fail to Get Info",
+			})
+			return
+		}
+		var status int32 = 0
+		if isFavorite {
+			status = 1
+		}
+		ctx.JSON(http.StatusOK, structs.Response{
+			StatusCode: status,
 		})
 		return
 	}

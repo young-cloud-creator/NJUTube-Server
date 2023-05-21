@@ -50,3 +50,7 @@ func FavoriteList(userId int64, selfId int64) ([]structs.Video, error) {
 
 	return videos, nil
 }
+
+func UserFavoriteVideo(userId int64, videoId int64) (bool, error) {
+	return repository.IsFavorite(userId, videoId);
+}
