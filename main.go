@@ -38,6 +38,7 @@ func main() {
 		log.Fatal(err) // cannot connect to the database
 	}
 
+	gin.SetMode(gin.ReleaseMode)
 	// setup routes
 	router := gin.Default()
 	initRouter(router)
